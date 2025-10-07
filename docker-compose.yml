@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  perfil-server:
+    build: .
+    container_name: perfil-server
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_HOST: pgsql
+      DATABASE_PORT: 5432
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_NAME: perfildb
+    depends_on:
+      - pgsql
+
+  pgsql:
+    image: postgres:17-alpine
+    container_name: pgsql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: perfildb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
